@@ -1,0 +1,555 @@
+{
+  "project": "Hackathon_0",
+  "version": "1.0.0",
+  "created": "2026-02-16",
+  "phases": [
+    {
+      "id": "phase_1",
+      "name": "Environment Setup",
+      "duration_days": 1,
+      "priority": "High",
+      "status": "pending",
+      "modules": [
+        {
+          "id": "phase_1_env_setup",
+          "name": "Development Environment",
+          "priority": "High",
+          "dependencies": [],
+          "tasks": [
+            "install_python_3_13_5",
+            "install_node_v24",
+            "setup_virtualenv",
+            "initialize_folder_structure",
+            "configure_cli_tools"
+          ]
+        }
+      ],
+      "deliverables": [
+        "Working Python environment",
+        "Working Node environment",
+        "Basic folder structure per constitution"
+      ],
+      "success_criteria": [
+        "python --version returns 3.13.5",
+        "node --version returns v24.x",
+        "Folder structure matches constitution"
+      ]
+    },
+    {
+      "id": "phase_2",
+      "name": "Backend Implementation",
+      "duration_days": 3,
+      "priority": "High",
+      "status": "pending",
+      "dependencies": ["phase_1"],
+      "modules": [
+        {
+          "id": "phase_2_database",
+          "name": "Database Layer",
+          "priority": "High",
+          "dependencies": ["phase_1_env_setup"],
+          "files": [
+            "backend/app/database.py",
+            "backend/app/models/user.py",
+            "backend/app/models/task.py",
+            "backend/app/models/setting.py",
+            "backend/app/models/ai_recommendation.py",
+            "backend/migrations/"
+          ],
+          "tasks": [
+            "setup_sqlalchemy",
+            "create_user_model",
+            "create_task_model",
+            "create_setting_model",
+            "create_ai_recommendation_model",
+            "setup_alembic_migrations"
+          ]
+        },
+        {
+          "id": "phase_2_auth",
+          "name": "Authentication",
+          "priority": "High",
+          "dependencies": ["phase_2_database"],
+          "files": [
+            "backend/app/routes/auth.py",
+            "backend/app/services/auth_service.py",
+            "backend/app/schemas/auth.py",
+            "backend/app/utils/security.py"
+          ],
+          "tasks": [
+            "implement_password_hashing",
+            "implement_jwt_token_generation",
+            "implement_register_endpoint",
+            "implement_login_endpoint",
+            "implement_logout_endpoint",
+            "implement_get_current_user",
+            "implement_password_change"
+          ]
+        },
+        {
+          "id": "phase_2_tasks",
+          "name": "Task Management",
+          "priority": "High",
+          "dependencies": ["phase_2_auth"],
+          "files": [
+            "backend/app/routes/tasks.py",
+            "backend/app/services/task_service.py",
+            "backend/app/schemas/task.py"
+          ],
+          "tasks": [
+            "implement_create_task",
+            "implement_list_tasks",
+            "implement_get_task",
+            "implement_update_task",
+            "implement_delete_task",
+            "implement_mark_task_complete"
+          ]
+        },
+        {
+          "id": "phase_2_settings",
+          "name": "Settings",
+          "priority": "Medium",
+          "dependencies": ["phase_2_auth"],
+          "files": [
+            "backend/app/routes/settings.py",
+            "backend/app/schemas/setting.py"
+          ],
+          "tasks": [
+            "implement_get_settings",
+            "implement_update_settings"
+          ]
+        },
+        {
+          "id": "phase_2_ai_service",
+          "name": "AI Service",
+          "priority": "Medium",
+          "dependencies": ["phase_1_env_setup"],
+          "files": [
+            "backend/app/services/ai_service.py",
+            "backend/app/services/ai_cli_wrapper.py",
+            "backend/app/routes/ai.py",
+            "backend/app/schemas/ai.py"
+          ],
+          "tasks": [
+            "implement_cli_wrapper",
+            "implement_recommendation_engine",
+            "implement_ai_recommend_endpoint",
+            "implement_ai_optimize_endpoint",
+            "implement_ai_history_endpoint"
+          ]
+        },
+        {
+          "id": "phase_2_utils",
+          "name": "Utilities",
+          "priority": "High",
+          "dependencies": [],
+          "files": [
+            "backend/app/utils/logging_config.py",
+            "backend/app/config.py",
+            "backend/app/main.py"
+          ],
+          "tasks": [
+            "setup_structlog",
+            "setup_cors_middleware",
+            "setup_error_handling",
+            "setup_fastapi_app",
+            "configure_api_docs"
+          ]
+        }
+      ],
+      "deliverables": [
+        "All API endpoints functional",
+        "Authentication working with JWT",
+        "Database migrations created",
+        "API documentation at /docs"
+      ],
+      "success_criteria": [
+        "All endpoints return correct responses",
+        "JWT authentication protects routes",
+        "Database schema matches plan",
+        "Error handling returns proper status codes"
+      ]
+    },
+    {
+      "id": "phase_3",
+      "name": "Frontend Implementation",
+      "duration_days": 4,
+      "priority": "High",
+      "status": "pending",
+      "dependencies": ["phase_2"],
+      "modules": [
+        {
+          "id": "phase_3_shared",
+          "name": "Shared Components",
+          "priority": "High",
+          "dependencies": ["phase_1_env_setup"],
+          "files": [
+            "frontend/src/components/shared/Button.jsx",
+            "frontend/src/components/shared/Input.jsx",
+            "frontend/src/components/shared/Modal.jsx",
+            "frontend/src/components/shared/Loading.jsx"
+          ],
+          "tasks": [
+            "create_button_component",
+            "create_input_component",
+            "create_modal_component",
+            "create_loading_component",
+            "setup_tailwind_css"
+          ]
+        },
+        {
+          "id": "phase_3_layout",
+          "name": "Layout Components",
+          "priority": "High",
+          "dependencies": ["phase_3_shared"],
+          "files": [
+            "frontend/src/components/layout/Header.jsx",
+            "frontend/src/components/layout/Sidebar.jsx",
+            "frontend/src/components/layout/Footer.jsx"
+          ],
+          "tasks": [
+            "create_header_component",
+            "create_sidebar_component",
+            "create_footer_component",
+            "setup_react_router"
+          ]
+        },
+        {
+          "id": "phase_3_auth_pages",
+          "name": "Authentication Pages",
+          "priority": "High",
+          "dependencies": ["phase_3_layout", "phase_2_auth"],
+          "files": [
+            "frontend/src/components/auth/Login.jsx",
+            "frontend/src/components/auth/Register.jsx"
+          ],
+          "tasks": [
+            "create_login_page",
+            "create_register_page",
+            "implement_form_validation",
+            "connect_to_backend_auth"
+          ]
+        },
+        {
+          "id": "phase_3_dashboard",
+          "name": "Dashboard",
+          "priority": "High",
+          "dependencies": ["phase_3_layout", "phase_2_tasks"],
+          "files": [
+            "frontend/src/components/dashboard/Dashboard.jsx",
+            "frontend/src/components/dashboard/TaskList.jsx",
+            "frontend/src/components/dashboard/AIPanel.jsx"
+          ],
+          "tasks": [
+            "create_dashboard_page",
+            "create_task_list_component",
+            "create_ai_panel_component",
+            "implement_task_filtering"
+          ]
+        },
+        {
+          "id": "phase_3_tasks",
+          "name": "Task Components",
+          "priority": "High",
+          "dependencies": ["phase_3_layout", "phase_2_tasks"],
+          "files": [
+            "frontend/src/components/tasks/TaskForm.jsx",
+            "frontend/src/components/tasks/TaskCard.jsx",
+            "frontend/src/components/tasks/TaskDetail.jsx"
+          ],
+          "tasks": [
+            "create_task_form",
+            "create_task_card",
+            "create_task_detail_view",
+            "implement_crud_operations"
+          ]
+        },
+        {
+          "id": "phase_3_settings",
+          "name": "Settings Page",
+          "priority": "Medium",
+          "dependencies": ["phase_3_layout", "phase_2_settings"],
+          "files": [
+            "frontend/src/components/settings/Settings.jsx"
+          ],
+          "tasks": [
+            "create_settings_page",
+            "implement_preference_forms",
+            "connect_to_backend_settings"
+          ]
+        },
+        {
+          "id": "phase_3_state",
+          "name": "State Management",
+          "priority": "High",
+          "dependencies": [],
+          "files": [
+            "frontend/src/store/index.js",
+            "frontend/src/store/authStore.js",
+            "frontend/src/store/taskStore.js",
+            "frontend/src/hooks/useAuth.js",
+            "frontend/src/hooks/useTasks.js"
+          ],
+          "tasks": [
+            "setup_zustand",
+            "create_auth_store",
+            "create_task_store",
+            "create_custom_hooks"
+          ]
+        },
+        {
+          "id": "phase_3_services",
+          "name": "API Services",
+          "priority": "High",
+          "dependencies": [],
+          "files": [
+            "frontend/src/services/api.js",
+            "frontend/src/services/auth.js",
+            "frontend/src/services/tasks.js"
+          ],
+          "tasks": [
+            "setup_axios_instance",
+            "create_auth_service",
+            "create_task_service",
+            "implement_interceptors"
+          ]
+        }
+      ],
+      "deliverables": [
+        "All pages implemented",
+        "API integration complete",
+        "Responsive design",
+        "Error handling in UI"
+      ],
+      "success_criteria": [
+        "All user stories pass acceptance criteria",
+        "UI is responsive on desktop and mobile",
+        "API errors are handled gracefully",
+        "Loading states are shown appropriately"
+      ]
+    },
+    {
+      "id": "phase_4",
+      "name": "AI Integration",
+      "duration_days": 3,
+      "priority": "Medium",
+      "status": "pending",
+      "dependencies": ["phase_2", "phase_3"],
+      "modules": [
+        {
+          "id": "phase_4_cli",
+          "name": "CLI Wrapper",
+          "priority": "High",
+          "dependencies": ["phase_2_ai_service"],
+          "files": [
+            "backend/app/services/ai_cli_wrapper.py"
+          ],
+          "tasks": [
+            "implement_claude_cli_integration",
+            "implement_qwen_cli_integration",
+            "add_error_handling",
+            "add_response_parsing"
+          ]
+        },
+        {
+          "id": "phase_4_recommendations",
+          "name": "Recommendation Engine",
+          "priority": "High",
+          "dependencies": ["phase_4_cli"],
+          "files": [
+            "backend/app/services/task_recommendation.py"
+          ],
+          "tasks": [
+            "implement_task_analysis_prompt",
+            "implement_recommendation_generation",
+            "implement_confidence_scoring",
+            "add_caching_layer"
+          ]
+        },
+        {
+          "id": "phase_4_frontend",
+          "name": "Frontend AI Integration",
+          "priority": "Medium",
+          "dependencies": ["phase_3_dashboard", "phase_4_recommendations"],
+          "files": [
+            "frontend/src/components/dashboard/AIPanel.jsx"
+          ],
+          "tasks": [
+            "connect_ai_panel_to_api",
+            "implement_ai_chat_interface",
+            "display_recommendations",
+            "add_accept_reject_actions"
+          ]
+        }
+      ],
+      "deliverables": [
+        "AI recommendations working",
+        "CLI integration functional",
+        "Frontend displays AI suggestions"
+      ],
+      "success_criteria": [
+        "AI responds within 5 seconds (p95)",
+        "Recommendations are relevant",
+        "Graceful degradation when AI unavailable"
+      ]
+    },
+    {
+      "id": "phase_5",
+      "name": "Testing & QA",
+      "duration_days": 2,
+      "priority": "High",
+      "status": "pending",
+      "dependencies": ["phase_2", "phase_3", "phase_4"],
+      "modules": [
+        {
+          "id": "phase_5_backend_tests",
+          "name": "Backend Unit Tests",
+          "priority": "High",
+          "dependencies": ["phase_2"],
+          "files": [
+            "backend/tests/test_auth.py",
+            "backend/tests/test_tasks.py",
+            "backend/tests/test_ai.py",
+            "backend/tests/conftest.py"
+          ],
+          "tasks": [
+            "write_auth_tests",
+            "write_task_tests",
+            "write_ai_tests",
+            "setup_pytest_fixtures",
+            "achieve_80_percent_coverage"
+          ]
+        },
+        {
+          "id": "phase_5_frontend_tests",
+          "name": "Frontend Tests",
+          "priority": "Medium",
+          "dependencies": ["phase_3"],
+          "files": [
+            "frontend/src/**/*.test.jsx"
+          ],
+          "tasks": [
+            "write_component_tests",
+            "write_hook_tests",
+            "setup_testing_library"
+          ]
+        },
+        {
+          "id": "phase_5_manual_qa",
+          "name": "Manual QA",
+          "priority": "High",
+          "dependencies": ["phase_4"],
+          "tasks": [
+            "verify_all_acceptance_scenarios",
+            "test_edge_cases",
+            "performance_testing",
+            "security_review"
+          ]
+        }
+      ],
+      "deliverables": [
+        "80%+ code coverage",
+        "All acceptance scenarios pass",
+        "Performance benchmarks met"
+      ],
+      "success_criteria": [
+        "All tests pass",
+        "No critical bugs",
+        "Performance within budgets"
+      ]
+    },
+    {
+      "id": "phase_6",
+      "name": "Deployment",
+      "duration_days": 1,
+      "priority": "High",
+      "status": "pending",
+      "dependencies": ["phase_5"],
+      "modules": [
+        {
+          "id": "phase_6_docker",
+          "name": "Dockerization",
+          "priority": "High",
+          "dependencies": ["phase_5"],
+          "files": [
+            "backend/Dockerfile",
+            "frontend/Dockerfile",
+            "docker-compose.yml",
+            ".env.example"
+          ],
+          "tasks": [
+            "create_backend_dockerfile",
+            "create_frontend_dockerfile",
+            "create_docker_compose",
+            "create_env_example",
+            "test_docker_build"
+          ]
+        },
+        {
+          "id": "phase_6_docs",
+          "name": "Documentation",
+          "priority": "High",
+          "dependencies": ["phase_6_docker"],
+          "files": [
+            "README.md",
+            "DEPLOYMENT.md",
+            "docs/api.md"
+          ],
+          "tasks": [
+            "write_readme",
+            "write_deployment_guide",
+            "document_api_endpoints",
+            "add_setup_instructions"
+          ]
+        }
+      ],
+      "deliverables": [
+        "Docker containers build successfully",
+        "docker-compose up runs full stack",
+        "Deployment documentation complete"
+      ],
+      "success_criteria": [
+        "Fresh docker-compose up works",
+        "Documentation is clear and complete"
+      ]
+    }
+  ],
+  "implementation_order": [
+    "phase_1_env_setup",
+    "phase_2_utils",
+    "phase_2_database",
+    "phase_2_auth",
+    "phase_2_tasks",
+    "phase_2_settings",
+    "phase_2_ai_service",
+    "phase_3_shared",
+    "phase_3_layout",
+    "phase_3_state",
+    "phase_3_services",
+    "phase_3_auth_pages",
+    "phase_3_dashboard",
+    "phase_3_tasks",
+    "phase_3_settings",
+    "phase_4_cli",
+    "phase_4_recommendations",
+    "phase_4_frontend",
+    "phase_5_backend_tests",
+    "phase_5_frontend_tests",
+    "phase_5_manual_qa",
+    "phase_6_docker",
+    "phase_6_docs"
+  ],
+  "critical_path": [
+    "phase_1_env_setup",
+    "phase_2_database",
+    "phase_2_auth",
+    "phase_2_tasks",
+    "phase_3_shared",
+    "phase_3_layout",
+    "phase_3_dashboard",
+    "phase_4_recommendations",
+    "phase_5_manual_qa",
+    "phase_6_docker"
+  ],
+  "total_estimated_days": 12
+}

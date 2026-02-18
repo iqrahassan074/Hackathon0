@@ -1,0 +1,1844 @@
+{
+  "project": "Hackathon_0",
+  "feature": "1-hackathon-app",
+  "version": "1.0.0",
+  "created": "2026-02-16",
+  "total_tasks": 92,
+  "total_effort_hours": 104,
+  "phases": [
+    {
+      "id": "phase_1",
+      "name": "Environment Setup",
+      "effort_hours": 8,
+      "tasks": [
+        {
+          "id": "task_1_1",
+          "name": "Install Python 3.13.5",
+          "description": "Install and configure Python 3.13.5 runtime",
+          "subtasks": [
+            "Download Python 3.13.5 from python.org",
+            "Run installer with 'Add to PATH' option",
+            "Verify installation: python --version",
+            "Verify pip: pip --version"
+          ],
+          "dependencies": [],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "python --version returns 3.13.5",
+            "pip --version works"
+          ]
+        },
+        {
+          "id": "task_1_2",
+          "name": "Install Node.js v24.x",
+          "description": "Install and configure Node.js v24.x runtime",
+          "subtasks": [
+            "Download Node.js v24.x from nodejs.org",
+            "Run installer",
+            "Verify installation: node --version",
+            "Verify npm: npm --version"
+          ],
+          "dependencies": [],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "node --version returns v24.x",
+            "npm --version works"
+          ]
+        },
+        {
+          "id": "task_1_3",
+          "name": "Setup Python Virtual Environment",
+          "description": "Create isolated Python environment for backend",
+          "subtasks": [
+            "Navigate to project root",
+            "Create venv: python -m venv venv",
+            "Activate venv",
+            "Upgrade pip"
+          ],
+          "dependencies": ["task_1_1"],
+          "priority": "High",
+          "effort": "15m",
+          "acceptance_criteria": [
+            "venv directory exists",
+            "Virtual environment activates successfully"
+          ]
+        },
+        {
+          "id": "task_1_4",
+          "name": "Initialize Folder Structure",
+          "description": "Create project directory structure per constitution",
+          "subtasks": [
+            "Create backend/ directory with subdirs",
+            "Create frontend/ directory",
+            "Create docs/ directory",
+            "Create .env.example file",
+            "Create .gitignore file"
+          ],
+          "dependencies": [],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "All directories created per plan.md structure",
+            ".gitignore includes venv, node_modules, .env"
+          ]
+        },
+        {
+          "id": "task_1_5",
+          "name": "Configure CLI Tools",
+          "description": "Setup Claude/Qwen CLI for AI integration",
+          "subtasks": [
+            "Install Claude CLI or verify Qwen Code",
+            "Configure API keys if required",
+            "Test CLI with simple query",
+            "Document CLI setup"
+          ],
+          "dependencies": ["task_1_1", "task_1_2"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "CLI tool responds to commands",
+            "API keys configured"
+          ]
+        },
+        {
+          "id": "task_1_6",
+          "name": "Install Backend Dependencies",
+          "description": "Install Python packages for backend",
+          "subtasks": [
+            "Create backend/requirements.txt",
+            "Install: pip install -r backend/requirements.txt",
+            "Verify installations"
+          ],
+          "dependencies": ["task_1_3"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "All packages installed",
+            "fastapi --version works"
+          ]
+        },
+        {
+          "id": "task_1_7",
+          "name": "Initialize Frontend Project",
+          "description": "Create React application with Vite",
+          "subtasks": [
+            "Run: npm create vite@latest frontend -- --template react",
+            "Navigate to frontend",
+            "Install dependencies",
+            "Install additional packages",
+            "Initialize Tailwind",
+            "Test: npm run dev"
+          ],
+          "dependencies": ["task_1_2"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Frontend dev server runs",
+            "Default Vite page loads"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_2",
+      "name": "Backend Implementation",
+      "effort_hours": 24,
+      "tasks": [
+        {
+          "id": "task_2_1",
+          "name": "Setup SQLAlchemy Database Connection",
+          "description": "Configure database connection and session management",
+          "subtasks": [
+            "Create backend/app/database.py",
+            "Define DATABASE_URL (SQLite for dev)",
+            "Create SQLAlchemy engine",
+            "Create SessionLocal class",
+            "Create Base class for models",
+            "Create get_db dependency"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Database connection works",
+            "Session can be created and closed"
+          ]
+        },
+        {
+          "id": "task_2_2",
+          "name": "Create User Model",
+          "description": "Define User database model",
+          "subtasks": [
+            "Create backend/app/models/user.py",
+            "Define User class with all fields",
+            "Add __tablename__ = 'users'",
+            "Add relationships"
+          ],
+          "dependencies": ["task_2_1"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "User model defined correctly",
+            "Model imports without errors"
+          ]
+        },
+        {
+          "id": "task_2_3",
+          "name": "Create Task Model",
+          "description": "Define Task database model",
+          "subtasks": [
+            "Create backend/app/models/task.py",
+            "Define Task class with all fields",
+            "Add relationship to User"
+          ],
+          "dependencies": ["task_2_1", "task_2_2"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Task model defined correctly",
+            "Foreign key relationship works"
+          ]
+        },
+        {
+          "id": "task_2_4",
+          "name": "Create Setting Model",
+          "description": "Define Setting database model for user preferences",
+          "subtasks": [
+            "Create backend/app/models/setting.py",
+            "Define Setting class with all fields",
+            "Add relationship to User"
+          ],
+          "dependencies": ["task_2_1", "task_2_2"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Setting model defined correctly",
+            "One-to-one relationship works"
+          ]
+        },
+        {
+          "id": "task_2_5",
+          "name": "Create AI Recommendation Model",
+          "description": "Define AIRecommendation database model",
+          "subtasks": [
+            "Create backend/app/models/ai_recommendation.py",
+            "Define AIRecommendation class with all fields",
+            "Add relationships to User and Task"
+          ],
+          "dependencies": ["task_2_1", "task_2_2", "task_2_3"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "AIRecommendation model defined correctly",
+            "Relationships work"
+          ]
+        },
+        {
+          "id": "task_2_6",
+          "name": "Setup Alembic Migrations",
+          "description": "Configure database migration system",
+          "subtasks": [
+            "Initialize Alembic",
+            "Configure alembic.ini",
+            "Update migrations/env.py",
+            "Create initial migration",
+            "Run migration",
+            "Verify tables created"
+          ],
+          "dependencies": ["task_2_2", "task_2_3", "task_2_4", "task_2_5"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Migration runs successfully",
+            "All 4 tables created"
+          ]
+        },
+        {
+          "id": "task_2_7",
+          "name": "Setup Pydantic Schemas - Auth",
+          "description": "Create Pydantic schemas for authentication",
+          "subtasks": [
+            "Create backend/app/schemas/auth.py",
+            "Define UserCreate schema",
+            "Define UserLogin schema",
+            "Define UserResponse schema",
+            "Define Token schema",
+            "Define PasswordChange schema"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "All schemas defined",
+            "Validation works"
+          ]
+        },
+        {
+          "id": "task_2_8",
+          "name": "Setup Pydantic Schemas - Task",
+          "description": "Create Pydantic schemas for tasks",
+          "subtasks": [
+            "Create backend/app/schemas/task.py",
+            "Define TaskCreate schema",
+            "Define TaskUpdate schema",
+            "Define TaskResponse schema",
+            "Define TaskStatus enum",
+            "Define TaskPriority enum"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "All schemas defined",
+            "Enums work correctly"
+          ]
+        },
+        {
+          "id": "task_2_9",
+          "name": "Setup Pydantic Schemas - Settings & AI",
+          "description": "Create Pydantic schemas for settings and AI",
+          "subtasks": [
+            "Create backend/app/schemas/setting.py",
+            "Define Setting schemas",
+            "Create backend/app/schemas/ai.py",
+            "Define AI schemas"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "All schemas defined"
+          ]
+        },
+        {
+          "id": "task_2_10",
+          "name": "Implement Password Hashing Utility",
+          "description": "Create secure password hashing functions",
+          "subtasks": [
+            "Create backend/app/utils/security.py",
+            "Implement hash_password function",
+            "Implement verify_password function",
+            "Test with sample passwords"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Passwords hash correctly",
+            "Verification works"
+          ]
+        },
+        {
+          "id": "task_2_11",
+          "name": "Implement JWT Token Service",
+          "description": "Create JWT token generation and verification",
+          "subtasks": [
+            "Create backend/app/services/auth_service.py",
+            "Define SECRET_KEY and ALGORITHM",
+            "Implement create_access_token",
+            "Implement verify_token",
+            "Implement get_current_user dependency",
+            "Set token expiry to 1 hour"
+          ],
+          "dependencies": ["task_2_10"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Tokens generate correctly",
+            "Tokens verify correctly",
+            "Expired tokens rejected"
+          ]
+        },
+        {
+          "id": "task_2_12",
+          "name": "Create FastAPI App Structure",
+          "description": "Setup main FastAPI application",
+          "subtasks": [
+            "Create backend/app/main.py",
+            "Create FastAPI app instance",
+            "Add CORS middleware",
+            "Add health check endpoint",
+            "Include routers",
+            "Configure uvicorn"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "App starts with uvicorn",
+            "/health returns 200",
+            "/docs shows Swagger UI"
+          ]
+        },
+        {
+          "id": "task_2_13",
+          "name": "Implement Register Endpoint",
+          "description": "Create user registration API",
+          "subtasks": [
+            "Create backend/app/routes/auth.py",
+            "Implement POST /api/v1/auth/register",
+            "Validate input",
+            "Check email exists",
+            "Hash password",
+            "Create user",
+            "Return UserResponse"
+          ],
+          "dependencies": ["task_2_2", "task_2_7", "task_2_10", "task_2_1"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Registration creates user",
+            "Duplicate email returns 409",
+            "Password not in response"
+          ]
+        },
+        {
+          "id": "task_2_14",
+          "name": "Implement Login Endpoint",
+          "description": "Create user login API",
+          "subtasks": [
+            "Add POST /api/v1/auth/login",
+            "Validate credentials",
+            "Verify password",
+            "Generate JWT token",
+            "Return token and user info"
+          ],
+          "dependencies": ["task_2_11", "task_2_13"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Valid credentials return token",
+            "Invalid credentials return 401"
+          ]
+        },
+        {
+          "id": "task_2_15",
+          "name": "Implement Get Current User Endpoint",
+          "description": "Create endpoint to get authenticated user",
+          "subtasks": [
+            "Add GET /api/v1/auth/me",
+            "Add Depends(get_current_user)",
+            "Return current user info"
+          ],
+          "dependencies": ["task_2_11", "task_2_14"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Valid token returns user",
+            "Invalid token returns 401"
+          ]
+        },
+        {
+          "id": "task_2_16",
+          "name": "Implement Logout Endpoint",
+          "description": "Create logout endpoint",
+          "subtasks": [
+            "Add POST /api/v1/auth/logout",
+            "Return success (client discards token)"
+          ],
+          "dependencies": ["task_2_14"],
+          "priority": "Medium",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Logout returns success"
+          ]
+        },
+        {
+          "id": "task_2_17",
+          "name": "Implement Change Password Endpoint",
+          "description": "Create password change API",
+          "subtasks": [
+            "Add PUT /api/v1/auth/password",
+            "Verify current password",
+            "Hash new password",
+            "Update in database"
+          ],
+          "dependencies": ["task_2_14", "task_2_10"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Correct password allows change",
+            "Wrong password returns 400"
+          ]
+        },
+        {
+          "id": "task_2_18",
+          "name": "Create Task Service",
+          "description": "Implement business logic for tasks",
+          "subtasks": [
+            "Create backend/app/services/task_service.py",
+            "Implement create_task",
+            "Implement get_tasks",
+            "Implement get_task",
+            "Implement update_task",
+            "Implement delete_task",
+            "Implement mark_task_complete"
+          ],
+          "dependencies": ["task_2_3", "task_2_8"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "All CRUD operations work",
+            "User can only access own tasks"
+          ]
+        },
+        {
+          "id": "task_2_19",
+          "name": "Implement Task Endpoints",
+          "description": "Create REST API for tasks",
+          "subtasks": [
+            "Create backend/app/routes/tasks.py",
+            "Implement GET /api/v1/tasks",
+            "Implement POST /api/v1/tasks",
+            "Implement GET /api/v1/tasks/{id}",
+            "Implement PUT /api/v1/tasks/{id}",
+            "Implement DELETE /api/v1/tasks/{id}",
+            "Implement PATCH /api/v1/tasks/{id}/complete",
+            "Add authentication"
+          ],
+          "dependencies": ["task_2_18", "task_2_11"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "All endpoints work",
+            "Authentication required",
+            "User isolation enforced"
+          ]
+        },
+        {
+          "id": "task_2_20",
+          "name": "Implement Settings Endpoints",
+          "description": "Create API for user settings",
+          "subtasks": [
+            "Create backend/app/routes/settings.py",
+            "Implement GET /api/v1/settings",
+            "Implement PUT /api/v1/settings",
+            "Create default settings if not exist",
+            "Add authentication"
+          ],
+          "dependencies": ["task_2_4", "task_2_9", "task_2_11"],
+          "priority": "Medium",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Settings can be retrieved",
+            "Settings can be updated"
+          ]
+        },
+        {
+          "id": "task_2_21",
+          "name": "Setup Logging Configuration",
+          "description": "Configure structured logging",
+          "subtasks": [
+            "Create backend/app/utils/logging_config.py",
+            "Configure structlog",
+            "Set JSON output format",
+            "Add request logging middleware",
+            "Configure log levels"
+          ],
+          "dependencies": ["task_1_6"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Logs output in JSON format",
+            "Request/response logged"
+          ]
+        },
+        {
+          "id": "task_2_22",
+          "name": "Implement Error Handling Middleware",
+          "description": "Add global error handling",
+          "subtasks": [
+            "Create backend/app/utils/error_handler.py",
+            "Define custom exception classes",
+            "Create exception handlers",
+            "Register with FastAPI app",
+            "Ensure proper status codes"
+          ],
+          "dependencies": ["task_2_12"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Errors return proper JSON format",
+            "Stack traces not exposed"
+          ]
+        },
+        {
+          "id": "task_2_23",
+          "name": "Create AI CLI Wrapper",
+          "description": "Implement wrapper for Claude/Qwen CLI",
+          "subtasks": [
+            "Create backend/app/services/ai_cli_wrapper.py",
+            "Implement call_claude_cli",
+            "Implement call_qwen_cli",
+            "Add error handling",
+            "Add timeout (30 seconds)",
+            "Parse CLI output"
+          ],
+          "dependencies": ["task_1_5"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "CLI can be called programmatically",
+            "Responses parsed correctly",
+            "Timeouts handled"
+          ]
+        },
+        {
+          "id": "task_2_24",
+          "name": "Create AI Recommendation Service",
+          "description": "Implement task recommendation logic",
+          "subtasks": [
+            "Create backend/app/services/ai_service.py",
+            "Implement get_task_recommendations",
+            "Implement optimize_task",
+            "Create prompts for AI",
+            "Store recommendations",
+            "Add caching layer"
+          ],
+          "dependencies": ["task_2_23", "task_2_5"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Recommendations generated",
+            "Results stored in database"
+          ]
+        },
+        {
+          "id": "task_2_25",
+          "name": "Implement AI Endpoints",
+          "description": "Create REST API for AI features",
+          "subtasks": [
+            "Create backend/app/routes/ai.py",
+            "Implement POST /api/v1/ai/recommend",
+            "Implement POST /api/v1/ai/optimize",
+            "Implement GET /api/v1/ai/history",
+            "Add authentication",
+            "Add rate limiting"
+          ],
+          "dependencies": ["task_2_24", "task_2_11"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "All AI endpoints work",
+            "Rate limiting prevents abuse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_3",
+      "name": "Frontend Implementation",
+      "effort_hours": 32,
+      "tasks": [
+        {
+          "id": "task_3_1",
+          "name": "Configure Tailwind CSS",
+          "description": "Setup Tailwind CSS for styling",
+          "subtasks": [
+            "Update tailwind.config.js",
+            "Add Tailwind directives to index.css",
+            "Configure PostCSS",
+            "Test with sample component"
+          ],
+          "dependencies": ["task_1_7"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Tailwind classes work",
+            "Styles apply correctly"
+          ]
+        },
+        {
+          "id": "task_3_2",
+          "name": "Create Button Component",
+          "description": "Reusable button component",
+          "subtasks": [
+            "Create src/components/shared/Button.jsx",
+            "Add variants",
+            "Add sizes",
+            "Add disabled state",
+            "Add loading state"
+          ],
+          "dependencies": ["task_3_1"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Button renders correctly",
+            "All variants work"
+          ]
+        },
+        {
+          "id": "task_3_3",
+          "name": "Create Input Component",
+          "description": "Reusable input component",
+          "subtasks": [
+            "Create src/components/shared/Input.jsx",
+            "Add text, email, password types",
+            "Add label support",
+            "Add error message display"
+          ],
+          "dependencies": ["task_3_1"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Input works with all types",
+            "Error messages display"
+          ]
+        },
+        {
+          "id": "task_3_4",
+          "name": "Create Modal Component",
+          "description": "Reusable modal/dialog component",
+          "subtasks": [
+            "Create src/components/shared/Modal.jsx",
+            "Add open/close functionality",
+            "Add overlay",
+            "Add header, body, footer slots"
+          ],
+          "dependencies": ["task_3_2"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Modal opens and closes",
+            "Overlay click closes"
+          ]
+        },
+        {
+          "id": "task_3_5",
+          "name": "Create Loading Component",
+          "description": "Loading spinner/indicator",
+          "subtasks": [
+            "Create src/components/shared/Loading.jsx",
+            "Add spinner animation",
+            "Add full-screen overlay option",
+            "Add inline option"
+          ],
+          "dependencies": ["task_3_1"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Spinner animates",
+            "Both modes work"
+          ]
+        },
+        {
+          "id": "task_3_6",
+          "name": "Create Header Component",
+          "description": "Application header with navigation",
+          "subtasks": [
+            "Create src/components/layout/Header.jsx",
+            "Add app logo/title",
+            "Add navigation links",
+            "Add user menu",
+            "Make responsive"
+          ],
+          "dependencies": ["task_3_2"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Header displays correctly",
+            "Responsive on mobile"
+          ]
+        },
+        {
+          "id": "task_3_7",
+          "name": "Create Sidebar Component",
+          "description": "Application sidebar navigation",
+          "subtasks": [
+            "Create src/components/layout/Sidebar.jsx",
+            "Add navigation items",
+            "Add active state",
+            "Add collapsible for mobile"
+          ],
+          "dependencies": ["task_3_2"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Sidebar displays",
+            "Collapses on mobile"
+          ]
+        },
+        {
+          "id": "task_3_8",
+          "name": "Setup React Router",
+          "description": "Configure routing for application",
+          "subtasks": [
+            "Create src/App.jsx with routes",
+            "Define all routes",
+            "Add ProtectedRoute component",
+            "Add redirect logic"
+          ],
+          "dependencies": ["task_1_7"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "All routes defined",
+            "Protected routes redirect"
+          ]
+        },
+        {
+          "id": "task_3_9",
+          "name": "Setup Zustand Store",
+          "description": "Configure state management",
+          "subtasks": [
+            "Create src/store/index.js",
+            "Create authStore",
+            "Create taskStore",
+            "Add persistence"
+          ],
+          "dependencies": ["task_1_7"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Stores created",
+            "State persists"
+          ]
+        },
+        {
+          "id": "task_3_10",
+          "name": "Create API Service",
+          "description": "Setup Axios for API calls",
+          "subtasks": [
+            "Create src/services/api.js",
+            "Create axios instance",
+            "Add request interceptor",
+            "Add response interceptor",
+            "Create auth.js and tasks.js"
+          ],
+          "dependencies": ["task_3_9"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "API calls include token",
+            "Errors handled globally"
+          ]
+        },
+        {
+          "id": "task_3_11",
+          "name": "Create Login Page",
+          "description": "User login page",
+          "subtasks": [
+            "Create src/components/auth/Login.jsx",
+            "Add email and password inputs",
+            "Add form validation",
+            "Call login API",
+            "Handle success and errors"
+          ],
+          "dependencies": ["task_3_3", "task_3_8", "task_3_10"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Login form works",
+            "Redirects on success"
+          ]
+        },
+        {
+          "id": "task_3_12",
+          "name": "Create Register Page",
+          "description": "User registration page",
+          "subtasks": [
+            "Create src/components/auth/Register.jsx",
+            "Add name, email, password inputs",
+            "Add form validation",
+            "Call register API",
+            "Handle success and errors"
+          ],
+          "dependencies": ["task_3_3", "task_3_8", "task_3_10"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Registration works",
+            "Validation works"
+          ]
+        },
+        {
+          "id": "task_3_13",
+          "name": "Create Dashboard Page",
+          "description": "Main dashboard with task overview",
+          "subtasks": [
+            "Create src/components/dashboard/Dashboard.jsx",
+            "Add task summary stats",
+            "Add recent tasks list",
+            "Add AI panel integration",
+            "Fetch data from API"
+          ],
+          "dependencies": ["task_3_6", "task_3_8", "task_3_10"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Dashboard loads",
+            "Data displays correctly"
+          ]
+        },
+        {
+          "id": "task_3_14",
+          "name": "Create TaskList Component",
+          "description": "Component to display list of tasks",
+          "subtasks": [
+            "Create src/components/dashboard/TaskList.jsx",
+            "Add filtering",
+            "Add sorting",
+            "Integrate TaskCard",
+            "Add empty state"
+          ],
+          "dependencies": ["task_3_15"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Tasks display in list",
+            "Filtering works"
+          ]
+        },
+        {
+          "id": "task_3_15",
+          "name": "Create TaskCard Component",
+          "description": "Individual task card",
+          "subtasks": [
+            "Create src/components/tasks/TaskCard.jsx",
+            "Display all task fields",
+            "Add quick actions",
+            "Add priority color coding"
+          ],
+          "dependencies": ["task_3_2"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Card displays all info",
+            "Actions work"
+          ]
+        },
+        {
+          "id": "task_3_16",
+          "name": "Create AIPanel Component",
+          "description": "AI assistant panel for recommendations",
+          "subtasks": [
+            "Create src/components/dashboard/AIPanel.jsx",
+            "Add chat-like interface",
+            "Add input for queries",
+            "Display AI recommendations",
+            "Add accept/reject actions",
+            "Connect to AI API"
+          ],
+          "dependencies": ["task_3_3", "task_3_5", "task_3_10"],
+          "priority": "High",
+          "effort": "2.5h",
+          "acceptance_criteria": [
+            "Panel displays",
+            "Can send queries",
+            "Recommendations display"
+          ]
+        },
+        {
+          "id": "task_3_17",
+          "name": "Create TaskForm Component",
+          "description": "Form for creating/editing tasks",
+          "subtasks": [
+            "Create src/components/tasks/TaskForm.jsx",
+            "Add all inputs",
+            "Add validation",
+            "Handle create and update modes"
+          ],
+          "dependencies": ["task_3_3", "task_3_4"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Form validates input",
+            "Create works",
+            "Update works"
+          ]
+        },
+        {
+          "id": "task_3_18",
+          "name": "Create TaskDetail Page",
+          "description": "Detailed view of single task",
+          "subtasks": [
+            "Create src/components/tasks/TaskDetail.jsx",
+            "Display all task fields",
+            "Add edit/delete buttons",
+            "Add complete toggle"
+          ],
+          "dependencies": ["task_3_15", "task_3_8"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Task details display",
+            "Actions work"
+          ]
+        },
+        {
+          "id": "task_3_19",
+          "name": "Create Settings Page",
+          "description": "User settings and preferences",
+          "subtasks": [
+            "Create src/components/settings/Settings.jsx",
+            "Add theme preference",
+            "Add notification toggle",
+            "Add AI assistant toggle",
+            "Fetch and save settings"
+          ],
+          "dependencies": ["task_3_3", "task_3_8", "task_3_10"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Settings load",
+            "Changes save"
+          ]
+        },
+        {
+          "id": "task_3_20",
+          "name": "Create Home Page",
+          "description": "Landing page (public)",
+          "subtasks": [
+            "Create src/components/Home.jsx",
+            "Add hero section",
+            "Add feature highlights",
+            "Add login/register CTAs"
+          ],
+          "dependencies": ["task_3_6", "task_3_8"],
+          "priority": "Medium",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Home page displays",
+            "Redirects when logged in"
+          ]
+        },
+        {
+          "id": "task_3_21",
+          "name": "Add Custom Hooks",
+          "description": "Create reusable React hooks",
+          "subtasks": [
+            "Create src/hooks/useAuth.js",
+            "Create src/hooks/useTasks.js",
+            "Add CRUD functions",
+            "Add error handling"
+          ],
+          "dependencies": ["task_3_9", "task_3_10"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Hooks work correctly",
+            "Can be used in components"
+          ]
+        },
+        {
+          "id": "task_3_22",
+          "name": "Add Responsive Design",
+          "description": "Ensure mobile responsiveness",
+          "subtasks": [
+            "Test all pages on mobile",
+            "Fix layout issues",
+            "Add mobile menu",
+            "Test on actual device"
+          ],
+          "dependencies": ["All Phase 3 tasks"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "All pages work on mobile",
+            "No horizontal scroll"
+          ]
+        },
+        {
+          "id": "task_3_23",
+          "name": "Add Error Boundaries",
+          "description": "React error boundaries for graceful failures",
+          "subtasks": [
+            "Create ErrorBoundary component",
+            "Wrap app routes",
+            "Add fallback UI"
+          ],
+          "dependencies": ["task_3_8"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Errors caught gracefully",
+            "Fallback displays"
+          ]
+        },
+        {
+          "id": "task_3_24",
+          "name": "Add Loading States",
+          "description": "Add loading indicators throughout app",
+          "subtasks": [
+            "Add loading to all async operations",
+            "Add skeleton loaders",
+            "Add button loading states"
+          ],
+          "dependencies": ["task_3_5"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Loading states visible",
+            "No infinite loaders"
+          ]
+        },
+        {
+          "id": "task_3_25",
+          "name": "Add Form Validation",
+          "description": "Client-side form validation",
+          "subtasks": [
+            "Add validation to all forms",
+            "Add error messages",
+            "Add real-time validation"
+          ],
+          "dependencies": ["task_3_11", "task_3_12", "task_3_17"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Forms validate",
+            "Errors display"
+          ]
+        },
+        {
+          "id": "task_3_26",
+          "name": "Add Toast Notifications",
+          "description": "Toast/notification system",
+          "subtasks": [
+            "Create Toast component",
+            "Add success, error, warning types",
+            "Add auto-dismiss",
+            "Integrate with API errors"
+          ],
+          "dependencies": ["task_3_4"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Toasts display",
+            "Auto-dismiss works"
+          ]
+        },
+        {
+          "id": "task_3_27",
+          "name": "Setup Environment Configuration",
+          "description": "Configure environment variables for frontend",
+          "subtasks": [
+            "Create .env file",
+            "Add VITE_API_URL",
+            "Create .env.example",
+            "Update API service"
+          ],
+          "dependencies": ["task_3_10"],
+          "priority": "High",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Env vars load correctly",
+            "API URL configurable"
+          ]
+        },
+        {
+          "id": "task_3_28",
+          "name": "Frontend Integration Testing",
+          "description": "Test frontend integration with backend",
+          "subtasks": [
+            "Test login flow end-to-end",
+            "Test task CRUD end-to-end",
+            "Test AI recommendations",
+            "Test settings",
+            "Fix integration issues"
+          ],
+          "dependencies": ["Phase 2 complete", "Phase 3 complete"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "All flows work end-to-end",
+            "No console errors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_4",
+      "name": "AI Integration",
+      "effort_hours": 16,
+      "tasks": [
+        {
+          "id": "task_4_1",
+          "name": "Test CLI Integration",
+          "description": "Verify CLI wrapper works with actual AI",
+          "subtasks": [
+            "Test Claude CLI call",
+            "Test Qwen CLI call",
+            "Verify response format",
+            "Handle errors"
+          ],
+          "dependencies": ["task_2_23"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "CLI responds",
+            "Responses parse correctly"
+          ]
+        },
+        {
+          "id": "task_4_2",
+          "name": "Create AI Prompts",
+          "description": "Design prompts for AI recommendations",
+          "subtasks": [
+            "Create task analysis prompt",
+            "Create task optimization prompt",
+            "Create task recommendation prompt",
+            "Test and refine prompts"
+          ],
+          "dependencies": ["task_4_1"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Prompts generate useful output",
+            "Output is consistent"
+          ]
+        },
+        {
+          "id": "task_4_3",
+          "name": "Implement Recommendation Generation",
+          "description": "Build recommendation engine",
+          "subtasks": [
+            "Update ai_service.py",
+            "Fetch user tasks",
+            "Build context for AI",
+            "Call AI with prompt",
+            "Parse response",
+            "Add confidence scoring"
+          ],
+          "dependencies": ["task_4_2", "task_2_18"],
+          "priority": "High",
+          "effort": "2.5h",
+          "acceptance_criteria": [
+            "Recommendations generated",
+            "Confidence scores assigned"
+          ]
+        },
+        {
+          "id": "task_4_4",
+          "name": "Add Caching Layer",
+          "description": "Cache AI responses to reduce API calls",
+          "subtasks": [
+            "Add cache table or in-memory cache",
+            "Create cache key",
+            "Set TTL",
+            "Check cache before calling AI"
+          ],
+          "dependencies": ["task_4_3"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Cache works",
+            "Reduces AI calls"
+          ]
+        },
+        {
+          "id": "task_4_5",
+          "name": "Implement Task Optimization",
+          "description": "AI-powered task optimization",
+          "subtasks": [
+            "Create optimize endpoint",
+            "Send task details to AI",
+            "Get optimization suggestions",
+            "Return structured suggestions"
+          ],
+          "dependencies": ["task_4_2"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Optimization works",
+            "Suggestions are actionable"
+          ]
+        },
+        {
+          "id": "task_4_6",
+          "name": "Add AI History Tracking",
+          "description": "Track AI interactions",
+          "subtasks": [
+            "Implement history endpoint",
+            "Query AIRecommendations table",
+            "Filter by user",
+            "Add pagination"
+          ],
+          "dependencies": ["task_2_5"],
+          "priority": "Medium",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "History retrieves correctly",
+            "Pagination works"
+          ]
+        },
+        {
+          "id": "task_4_7",
+          "name": "Integrate AI Panel with Backend",
+          "description": "Connect frontend AI panel to API",
+          "subtasks": [
+            "Update AIPanel component",
+            "Add API call",
+            "Display loading state",
+            "Display recommendations",
+            "Add accept/reject handlers"
+          ],
+          "dependencies": ["task_3_16", "task_2_25"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Panel connects to API",
+            "Recommendations display",
+            "Accept/reject works"
+          ]
+        },
+        {
+          "id": "task_4_8",
+          "name": "Add AI Error Handling",
+          "description": "Graceful degradation when AI unavailable",
+          "subtasks": [
+            "Add timeout handling",
+            "Add retry logic",
+            "Add fallback message",
+            "Show user-friendly errors"
+          ],
+          "dependencies": ["task_4_1"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Errors handled gracefully",
+            "App still usable"
+          ]
+        },
+        {
+          "id": "task_4_9",
+          "name": "Test AI Recommendations",
+          "description": "Manual testing of AI features",
+          "subtasks": [
+            "Create test tasks",
+            "Request recommendations",
+            "Verify relevance",
+            "Test optimization",
+            "Document results"
+          ],
+          "dependencies": ["task_4_3", "task_4_5"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Recommendations are relevant",
+            "Edge cases handled"
+          ]
+        },
+        {
+          "id": "task_4_10",
+          "name": "Optimize AI Performance",
+          "description": "Improve AI response times",
+          "subtasks": [
+            "Measure current response times",
+            "Optimize prompts",
+            "Improve caching",
+            "Verify improvements"
+          ],
+          "dependencies": ["task_4_3", "task_4_4"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Response time < 5 seconds",
+            "Caching effective"
+          ]
+        },
+        {
+          "id": "task_4_11",
+          "name": "Add AI Rate Limiting",
+          "description": "Prevent AI API abuse",
+          "subtasks": [
+            "Add rate limit middleware",
+            "Limit: 10 req/min per user",
+            "Return 429 on exceed",
+            "Add retry-after header"
+          ],
+          "dependencies": ["task_2_25"],
+          "priority": "Medium",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Rate limiting works",
+            "Proper errors returned"
+          ]
+        },
+        {
+          "id": "task_4_12",
+          "name": "Document AI Integration",
+          "description": "Document AI features and usage",
+          "subtasks": [
+            "Write AI feature documentation",
+            "Document prompt engineering",
+            "Add usage examples",
+            "Add to README"
+          ],
+          "dependencies": ["All AI tasks"],
+          "priority": "Low",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Documentation complete",
+            "Examples work"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_5",
+      "name": "Testing & QA",
+      "effort_hours": 16,
+      "tasks": [
+        {
+          "id": "task_5_1",
+          "name": "Setup Pytest",
+          "description": "Configure pytest for backend testing",
+          "subtasks": [
+            "Create backend/pytest.ini",
+            "Create backend/tests/conftest.py",
+            "Add test database fixture",
+            "Add client fixture"
+          ],
+          "dependencies": ["task_2_12"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Pytest runs",
+            "Fixtures work"
+          ]
+        },
+        {
+          "id": "task_5_2",
+          "name": "Write Auth Tests",
+          "description": "Unit tests for authentication",
+          "subtasks": [
+            "Create backend/tests/test_auth.py",
+            "Test register endpoint",
+            "Test login endpoint",
+            "Test get current user",
+            "Test invalid credentials"
+          ],
+          "dependencies": ["task_5_1", "task_2_13", "task_2_14"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "All auth tests pass",
+            "Coverage > 80%"
+          ]
+        },
+        {
+          "id": "task_5_3",
+          "name": "Write Task Tests",
+          "description": "Unit tests for task endpoints",
+          "subtasks": [
+            "Create backend/tests/test_tasks.py",
+            "Test all CRUD operations",
+            "Test user isolation"
+          ],
+          "dependencies": ["task_5_1", "task_2_19"],
+          "priority": "High",
+          "effort": "2.5h",
+          "acceptance_criteria": [
+            "All task tests pass",
+            "User isolation verified"
+          ]
+        },
+        {
+          "id": "task_5_4",
+          "name": "Write AI Tests",
+          "description": "Unit tests for AI endpoints",
+          "subtasks": [
+            "Create backend/tests/test_ai.py",
+            "Test all AI endpoints",
+            "Mock AI CLI calls",
+            "Test rate limiting"
+          ],
+          "dependencies": ["task_5_1", "task_2_25"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "All AI tests pass",
+            "Mocks work correctly"
+          ]
+        },
+        {
+          "id": "task_5_5",
+          "name": "Write Service Tests",
+          "description": "Tests for service layer",
+          "subtasks": [
+            "Test all services",
+            "Test security utilities",
+            "Achieve coverage"
+          ],
+          "dependencies": ["task_5_1"],
+          "priority": "Medium",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Service tests pass",
+            "Coverage improved"
+          ]
+        },
+        {
+          "id": "task_5_6",
+          "name": "Setup React Testing Library",
+          "description": "Configure frontend testing",
+          "subtasks": [
+            "Install testing dependencies",
+            "Create test setup file",
+            "Add custom renders"
+          ],
+          "dependencies": ["task_1_7"],
+          "priority": "Medium",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "Tests can run",
+            "RTL configured"
+          ]
+        },
+        {
+          "id": "task_5_7",
+          "name": "Write Component Tests",
+          "description": "Test React components",
+          "subtasks": [
+            "Test shared components",
+            "Test task components",
+            "Test AIPanel"
+          ],
+          "dependencies": ["task_5_6"],
+          "priority": "Medium",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Component tests pass",
+            "Interactions tested"
+          ]
+        },
+        {
+          "id": "task_5_8",
+          "name": "Write Hook Tests",
+          "description": "Test custom hooks",
+          "subtasks": [
+            "Test useAuth hook",
+            "Test useTasks hook",
+            "Mock API calls"
+          ],
+          "dependencies": ["task_5_6"],
+          "priority": "Medium",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Hook tests pass"
+          ]
+        },
+        {
+          "id": "task_5_9",
+          "name": "Run Manual QA - Auth Flow",
+          "description": "Manual testing of authentication",
+          "subtasks": [
+            "Test registration",
+            "Test login",
+            "Test logout",
+            "Test password change"
+          ],
+          "dependencies": ["Phase 3 complete"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "All scenarios pass",
+            "No bugs found"
+          ]
+        },
+        {
+          "id": "task_5_10",
+          "name": "Run Manual QA - Task Flow",
+          "description": "Manual testing of task management",
+          "subtasks": [
+            "Test all CRUD operations",
+            "Test filter/sort",
+            "Test complete task"
+          ],
+          "dependencies": ["Phase 3 complete"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "All scenarios pass"
+          ]
+        },
+        {
+          "id": "task_5_11",
+          "name": "Run Manual QA - AI Features",
+          "description": "Manual testing of AI recommendations",
+          "subtasks": [
+            "Test AI panel",
+            "Test recommendations",
+            "Test optimization",
+            "Test accept/reject"
+          ],
+          "dependencies": ["Phase 4 complete"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "AI features work",
+            "Recommendations useful"
+          ]
+        },
+        {
+          "id": "task_5_12",
+          "name": "Run Manual QA - Settings",
+          "description": "Manual testing of settings",
+          "subtasks": [
+            "Test view settings",
+            "Test update settings",
+            "Test persistence"
+          ],
+          "dependencies": ["Phase 3 complete"],
+          "priority": "Medium",
+          "effort": "30m",
+          "acceptance_criteria": [
+            "Settings work"
+          ]
+        },
+        {
+          "id": "task_5_13",
+          "name": "Performance Testing",
+          "description": "Test application performance",
+          "subtasks": [
+            "Test API response times",
+            "Test frontend load times",
+            "Identify bottlenecks"
+          ],
+          "dependencies": ["All features complete"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Performance within budgets",
+            "No major bottlenecks"
+          ]
+        },
+        {
+          "id": "task_5_14",
+          "name": "Bug Fixing",
+          "description": "Fix bugs found during testing",
+          "subtasks": [
+            "Triage bugs by severity",
+            "Fix critical and major bugs",
+            "Re-test fixes"
+          ],
+          "dependencies": ["All testing tasks"],
+          "priority": "High",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Critical bugs fixed",
+            "Major bugs fixed"
+          ]
+        },
+        {
+          "id": "task_5_15",
+          "name": "Code Coverage Report",
+          "description": "Generate and review coverage",
+          "subtasks": [
+            "Run coverage for backend",
+            "Run coverage for frontend",
+            "Generate reports",
+            "Ensure > 80% coverage"
+          ],
+          "dependencies": ["All test tasks"],
+          "priority": "Medium",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Coverage > 80%",
+            "Report generated"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_6",
+      "name": "Deployment",
+      "effort_hours": 8,
+      "tasks": [
+        {
+          "id": "task_6_1",
+          "name": "Create Backend Dockerfile",
+          "description": "Dockerize backend application",
+          "subtasks": [
+            "Create backend/Dockerfile",
+            "Use Python 3.13.5 base image",
+            "Copy requirements and install",
+            "Copy application code",
+            "Set entrypoint",
+            "Test build"
+          ],
+          "dependencies": ["Phase 2 complete"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Docker image builds",
+            "Container runs",
+            "API accessible"
+          ]
+        },
+        {
+          "id": "task_6_2",
+          "name": "Create Frontend Dockerfile",
+          "description": "Dockerize frontend application",
+          "subtasks": [
+            "Create frontend/Dockerfile",
+            "Use Node v24 base image",
+            "Build application",
+            "Serve with nginx",
+            "Test build"
+          ],
+          "dependencies": ["Phase 3 complete"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Docker image builds",
+            "Container runs",
+            "Frontend accessible"
+          ]
+        },
+        {
+          "id": "task_6_3",
+          "name": "Create Docker Compose",
+          "description": "Orchestrate multi-container setup",
+          "subtasks": [
+            "Create docker-compose.yml",
+            "Define all services",
+            "Add networking",
+            "Add volumes",
+            "Test docker-compose up"
+          ],
+          "dependencies": ["task_6_1", "task_6_2"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "docker-compose up works",
+            "All services start"
+          ]
+        },
+        {
+          "id": "task_6_4",
+          "name": "Create Environment Configuration",
+          "description": "Setup environment variables for deployment",
+          "subtasks": [
+            "Update .env.example",
+            "Add all required variables",
+            "Document each variable"
+          ],
+          "dependencies": ["All phases"],
+          "priority": "High",
+          "effort": "45m",
+          "acceptance_criteria": [
+            "All variables documented",
+            "Example is usable"
+          ]
+        },
+        {
+          "id": "task_6_5",
+          "name": "Write README",
+          "description": "Create comprehensive README",
+          "subtasks": [
+            "Add project description",
+            "Add features list",
+            "Add tech stack",
+            "Add setup instructions",
+            "Add usage instructions"
+          ],
+          "dependencies": ["All phases"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "README complete",
+            "Setup instructions work"
+          ]
+        },
+        {
+          "id": "task_6_6",
+          "name": "Write Deployment Guide",
+          "description": "Create deployment documentation",
+          "subtasks": [
+            "Create DEPLOYMENT.md",
+            "Document Docker deployment",
+            "Document environment setup",
+            "Add troubleshooting"
+          ],
+          "dependencies": ["task_6_3"],
+          "priority": "High",
+          "effort": "1h",
+          "acceptance_criteria": [
+            "Guide complete",
+            "Steps are clear"
+          ]
+        },
+        {
+          "id": "task_6_7",
+          "name": "Final Verification",
+          "description": "End-to-end verification of deployment",
+          "subtasks": [
+            "Clean environment",
+            "Run docker-compose up",
+            "Test all features",
+            "Verify persistence",
+            "Test restart"
+          ],
+          "dependencies": ["All deployment tasks"],
+          "priority": "High",
+          "effort": "1.5h",
+          "acceptance_criteria": [
+            "Fresh deploy works",
+            "All features functional"
+          ]
+        },
+        {
+          "id": "task_6_8",
+          "name": "Optional Kubernetes Manifests",
+          "description": "Create K8s deployment files (optional)",
+          "subtasks": [
+            "Create k8s/ directory",
+            "Create deployment manifests",
+            "Create service manifests",
+            "Document K8s deployment"
+          ],
+          "dependencies": ["task_6_3"],
+          "priority": "Low",
+          "effort": "2h",
+          "acceptance_criteria": [
+            "Manifests created",
+            "Can deploy to Minikube"
+          ]
+        }
+      ]
+    }
+  ],
+  "implementation_order": [
+    "phase_1",
+    "phase_2",
+    "phase_3",
+    "phase_4",
+    "phase_5",
+    "phase_6"
+  ],
+  "critical_path": [
+    "task_1_1",
+    "task_1_3",
+    "task_1_6",
+    "task_2_1",
+    "task_2_2",
+    "task_2_10",
+    "task_2_11",
+    "task_2_13",
+    "task_2_14",
+    "task_2_18",
+    "task_2_19",
+    "task_3_1",
+    "task_3_2",
+    "task_3_8",
+    "task_3_9",
+    "task_3_10",
+    "task_3_13",
+    "task_4_1",
+    "task_4_2",
+    "task_4_3",
+    "task_4_7",
+    "task_5_1",
+    "task_5_2",
+    "task_5_3",
+    "task_5_9",
+    "task_5_10",
+    "task_6_1",
+    "task_6_2",
+    "task_6_3",
+    "task_6_7"
+  ]
+}
