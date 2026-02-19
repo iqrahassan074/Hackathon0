@@ -1,0 +1,14 @@
+# Python FastAPI Application
+
+# Build configuration
+[phases.setup]
+nixPkgs = ["python313"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[phases.build]
+cmds = ["echo 'No build step required for Python'"]
+
+[start]
+cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
