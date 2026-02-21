@@ -1,29 +1,27 @@
 {
-    "name":  "hackathon0",
-    "version":  "1.0.0",
-    "description":  "AI-Powered Task Management Application",
-    "main":  "index.js",
-    "scripts":  {
-                    "docker_down":  "docker-compose down",
-                    "docker_up":  "docker-compose up -d",
-                    "build_frontend":  "cd frontend \u0026\u0026 npm run build",
-                    "dev_backend":  "cd backend \u0026\u0026 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
-                    "build":  "npm run build:frontend",
-                    "start_backend":  "cd backend \u0026\u0026 uvicorn app.main:app --host 0.0.0.0 --port 8000",
-                    "docker_logs":  "docker-compose logs -f",
-                    "test":  "echo \"Error: no test specified\" \u0026\u0026 exit 1",
-                    "docker_build":  "docker-compose build",
-                    "start_frontend":  "cd frontend \u0026\u0026 npx serve -s dist -l 3000",
-                    "dev_frontend":  "cd frontend \u0026\u0026 npm run dev",
-                    "dev":  "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
-                },
-    "keywords":  [
-
-                 ],
-    "author":  "",
-    "license":  "ISC",
-    "type":  "commonjs",
-    "devDependencies":  {
-                            "concurrently":  "^8.2.2"
-                        }
+  "name": "hackathon0",
+  "version": "1.0.0",
+  "description": "AI-Powered Task Management Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "start:backend": "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000",
+    "start:frontend": "cd frontend && npx serve -s dist -l 3000",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
